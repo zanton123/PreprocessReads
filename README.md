@@ -34,9 +34,11 @@ Algorithm selection:
 	               ( /gRNA 12 20 will retrieve 20 nucleotide read sequence starting 12 positions after the 5' end match of adaptor)
 
 Programmer options variables:
+
 	-G ........... set MAX_READS_ON_GPU variable
 	-R ........... set MAX_READ_LENGTH variable
 
 example usage:
+
 	PreprocessReads -dev 0 -dev 1 -i infile.fastq -o outfilename.fastq -len 26 -a ATTAGATCGATGCTA -mm 2
 
