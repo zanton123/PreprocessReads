@@ -39,7 +39,7 @@ int MAX_READS_ON_GPU = 10000000;        // maximum number of reads that fit simu
 #define MAX_ADAPTOR_LENGTH 100          // maximum length of adaptor sequence for trimming, can contain N for any base
 #define MAX_FASTQ_BUF_LINE 500          // structure of buffer for read from FastQ file
 
-char Adaptor[MAX_ADAPTOR_LENGTH] = "ATTAGCTAGCTAGATGATCGACTAGCT"; // adaptor on CPU side from parsing command line
+char Adaptor[MAX_ADAPTOR_LENGTH] = "ATCTCGTATGCCGTCTTCTGCTT"; // adaptor on CPU side from parsing command line
 short mismatches = 2;					// holds maximum number of mismatches on cpu side
 
 int numGPUs = 0;                        // holds number of CUDA devices in the system [1 TITAN to max 2 TITAN Z]
