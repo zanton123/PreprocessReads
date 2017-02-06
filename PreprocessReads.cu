@@ -1196,7 +1196,7 @@ int main(int argc, char *argv[])
     reads_processed = PreprocessReadsOnGPU();
 
     printf("\nReads processed: %d\n", reads_processed);
-    printf("Reads read from input file %s : %d\n",input_filename, hNumberOfReads);
+    printf("Reads in input file %s : %d\n",input_filename, hNumberOfReads);
     printf("Reads written to output file %s : %d\n", output_filename, hReadsWritten);
     if(FastQ_WARNING) printf("Encountered potential issues with the FastQ file format in %s\n", input_filename);
 
