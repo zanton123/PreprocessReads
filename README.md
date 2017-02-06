@@ -46,13 +46,13 @@ example usage:
 
 ###HOW TO BUILD PreprocessReads:
 
-If you have the NVIDIA CUDA IDE installed you can build the executable from there. If you would want to build in the terminal the following commands should be executed:
+PreprocessReads depends on the core cuda and c libraries as well as libz (install libzg). For using the multi-core compression option -pigz you need to install the package pigz in the path. The source contains make and eclipse files for building with the NVIDIA CUDA IDE. If you would want to build in the terminal the following commands should be executed:
 
 ```
 cd
-git clone 
+git clone https://github.com/zanton123/PreprocessReads.git
 cd PreprocessReads
-nvcc -l -o PreprocessReads PreprocessReads.cu
+nvcc -lz -o PreprocessReads PreprocessReads.cu
 ```
 
 This will build an executable PreprocessReads for your local CUDA card. If your development machine and production machine are different please consult the CUDA toolkit documenation on how to specify the -gencode parameter. Also note that the source code presently expects at **minimum 6 gigabyte GPU memory** and requires a **minimum compute capability of 3.0 (Kepler)**. Tested on the following NVIDIA cards:
