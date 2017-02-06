@@ -42,3 +42,17 @@ example usage:
 
 	PreprocessReads -dev 0 -dev 1 -i infile.fastq -o outfilename.fastq -len 26 -a ATTAGATCGATGCTA -mm 2
 
+**HOW TO BUILD PreprocessReads:**
+If you have the NVIDIA CUDA IDE installed you can build the executable from there. If you would want to build in the terminal the following commands should be executed:
+´´´
+cd
+git clone 
+cd PreprocessReads
+nvcc -l -o PreprocessReads PreprocessReads.cu
+´´´
+
+This will build an executable PreprocessReads for your local CUDA card. If your development machine and production machine are different please consult the CUDA toolkit documenation on how to specify the -gencode parameter. Also note that the source code presently expects at minimum 6 gigabyte GPU memory and requires a minimum compute capability of 3.0 (Kepler). Tested on the following NVIDIA cards:
+
+*GTX Titan
+*GTX Titan Z
+*GTX Titan X (Maxwell)
