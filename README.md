@@ -46,7 +46,7 @@ example usage:
 
 ###HOW TO BUILD PreprocessReads:
 
-PreprocessReads depends on the core cuda and c libraries as well as libz (**install zlib1g-dev**). For using the multithreaded compression option **-pigz** you need also the package pigz istalled and in the path. The source contains make and eclipse files for building with the NVIDIA CUDA IDE. If you would want to build in the terminal the following commands should be executed:
+PreprocessReads depends on the core cuda and c libraries as well as libz (**install zlib1g-dev**). For using the multithreaded compression option **-pigz** you need also the package pigz istalled and in the path. The source contains the eclipse project files for building with the NVIDIA CUDA IDE on Linux. If you would want to build from the terminal the following commands can be used:
 
 ```
 cd
