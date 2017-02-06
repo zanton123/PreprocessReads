@@ -46,7 +46,7 @@ example usage:
 
 ###HOW TO BUILD PreprocessReads:
 
-PreprocessReads depends on the core cuda and c libraries as well as libz (install libzg). For using the multi-core compression option -pigz you need to install the package pigz in the path. The source contains make and eclipse files for building with the NVIDIA CUDA IDE. If you would want to build in the terminal the following commands should be executed:
+PreprocessReads depends on the core cuda and c libraries as well as libz (**install zlib1g-dev**). For using the multithreaded compression option **-pigz** you need also the package pigz istalled and in the path. The source contains make and eclipse files for building with the NVIDIA CUDA IDE. If you would want to build in the terminal the following commands should be executed:
 
 ```
 cd
@@ -55,8 +55,9 @@ cd PreprocessReads
 nvcc -lz -o PreprocessReads PreprocessReads.cu
 ```
 
-This will build an executable PreprocessReads for your local CUDA card. If your development machine and production machine are different please consult the CUDA toolkit documenation on how to specify the -gencode parameter. Also note that the source code presently expects at **minimum 6 gigabyte GPU memory** and requires a **minimum compute capability of 3.0 (Kepler)**. Tested on the following NVIDIA cards:
-
-* GTX Titan
-* GTX Titan Z
-* GTX Titan X (Maxwell)
+This will build an executable PreprocessReads for your the CUDA card on your machine. If your development and production machines are different consult the CUDA toolkit documentation on the *-arch* and *-gencode* parameters. Also note that the source code presently expects at* **minimum 6 gigabyte GPU memory and compute capability of 3.0 (Kepler)***. Tested on the following NVIDIA cards:`
+```
+GTX Titan
+GTX Titan Z
+GTX Titan X (Maxwell)
+```
