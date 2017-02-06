@@ -55,7 +55,7 @@ cd PreprocessReads
 nvcc -lz -o PreprocessReads PreprocessReads.cu
 ```
 
-This will build an executable PreprocessReads for your the CUDA card on your machine. If your development and production machines are different consult the CUDA toolkit documentation on the *-arch* and *-gencode* parameters. Also note that the source code presently expects at _**minimum 6 gigabyte GPU memory and compute capability of 3.0 (Kepler)**_. Tested on the following NVIDIA cards:`
+This will build an executable PreprocessReads for your the CUDA card on your machine. If your development and production machines are different consult the CUDA toolkit documentation on the *-arch* and *-gencode* parameters. Also note that the source code presently expects at _**minimum 6 gigabyte GPU memory and compute capability of 3.0 (Kepler)**_. PreprocessReads was tested on the following NVIDIA cards:`
 ```
 GTX Titan
 GTX Titan Z
