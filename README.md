@@ -6,7 +6,7 @@ PreprocessReads assists with trimming reads by reported base quality, trimming o
 PreprocessReads might be of interest for educational purposed and adopts a simple and extensible source format. At this time the source does not integrate with NVIDIA's nvBIO library but is constructed as an easy to understand single CUDA C++ source file that draws on the CUDA runtime API for parallel processing of data.
 
 
-Usage: PreprocessReads [algorithm selection] -i [fastq or fastq.gz input file] -o [output file] [options] 
+**Usage: PreprocessReads [algorithm selection] -i [fastq or fastq.gz input file] -o [output file] [options] **
 
 Program Options:
 
