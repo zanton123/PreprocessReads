@@ -40,7 +40,7 @@ Programmer options variables:
 
 example usage:
 
-	PreprocessReads -dev 0 -dev 1 -i infile.fastq -o outfilename.fastq -len 26 -a ATTAGATCGATGCTA -mm 2
+	PreprocessReads -dev 0 -dev 1 -i infile.fastq -o outfilename.fastq -len 26 -a ATCTCGTATGCCGTCTTCTGCTT -mm 2
 
 
 
