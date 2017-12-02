@@ -25,6 +25,11 @@ Program Options:
 	-dev, -Dev ... specify CUDA device to use (can be used repeatedly for selecting multiple GPUs,
 	               if not specified an automatic search for GPUs with compute capability 3.5 and 6 GB memory is performed)
 
+Multithreaded CPU version only:
+
+	-Threads ..... specify the number of CPU threads to use. An integer between 1 and 64 is expected as argument.
+	               If not specified a preset is used [default 8].
+
 Algorithm selection:
 
 	/TA .......... select adaptor trimming only (can be also used BEFORE option /gRNA to avoid quality trimming)
@@ -44,7 +49,7 @@ example usage:
 
 
 
-###How to build PreprocessReads:
+### How to build PreprocessReads:
 
 PreprocessReads depends on the core cuda and c libraries as well as libz (**install zlib1g-dev**). To write compressed output files gzip should be in the path, else we fall back to uncompressed output. For using the multithreaded compression option **-pigz** you need also the package pigz installed and in the path. The source contains the eclipse project files for building with the NVIDIA CUDA IDE on Linux. If you would want to build from the terminal the following commands can be used:
 
