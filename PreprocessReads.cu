@@ -98,7 +98,7 @@ void SetAdaptorSequence(const char *AdaptorSequence, const short mismatches, con
 
 	for(int dev=0; dev < numGPUs; dev++)
 	{
-		cudaSetDevice(dev);
+		cudaSetDevice(device[dev]);
 		if(verbose) printf("[%d] Setting Adaptor sequence %s, length %d on GPU \n", dev, AdaptorSequence, AdLen);
 		CUDA_CHECK_RETURN(cudaMemcpyToSymbol(ADAPTOR, AdaptorSequence, AdLen));           // copy to device
 		CUDA_CHECK_RETURN(cudaMemcpyToSymbol(ADAPTOR_LEN, &AdLen, sizeof(short)));        // constant memory
@@ -322,7 +322,7 @@ void FreeGPUs(void)
 {
     for (int dev=0; dev<numGPUs; dev++)                         // release cuda resources from all devices
     {
-    	CUDA_CHECK_RETURN(cudaSetDevice(dev));
+    	CUDA_CHECK_RETURN(cudaSetDevice(device[dev]));
 
     	CUDA_CHECK_RETURN(cudaEventDestroy(QUAL_COPY_DONE[dev]));
     	CUDA_CHECK_RETURN(cudaEventDestroy(SEQ_COPY_DONE[dev]));
@@ -680,7 +680,7 @@ int PreprocessReadsOnGPU(void)
     	    CUDA_CHECK_RETURN(cudaStreamWaitEvent(compute_stream[dev], QUAL_COPY_DONE[dev], 0));
     	    if(QualityTrimming)
     	    {
-    	    	if(verbose) printf("[%d] TrimmQuals\n", dev);
+    	    	if(verbose) printf("[%d] TrimmQuals\n", device[dev]);
     	    	TrimmQuals<<<4096, 256, 0, compute_stream[dev]>>>(dQualArray[dev], dIntArray[dev][dev_side], ReadsToProcess[dev], MAX_READ_LENGTH);
     	    	CUDA_CHECK_RETURN(cudaGetLastError());
     	    }
@@ -692,7 +692,7 @@ int PreprocessReadsOnGPU(void)
     	    CUDA_CHECK_RETURN(cudaStreamWaitEvent(compute_stream[dev], SEQ_COPY_DONE[dev], 0));
     	    if(gRNATrimming)
     	    {
-    	    	if(verbose) printf("[%d] Find_gRNA\n", dev);
+    	    	if(verbose) printf("[%d] Find_gRNA\n", device[dev]);
     	        Find_gRNA<<<4096, 256, 0, compute_stream[dev]>>>(dSequenceArray[dev], dIntArray[dev][dev_side], ReadsToProcess[dev], MAX_READ_LENGTH);
     	        CUDA_CHECK_RETURN(cudaGetLastError());
     	    }
@@ -700,7 +700,7 @@ int PreprocessReadsOnGPU(void)
     	    {
     	    	if(AdaptorTrimming)
     	    	{
-    	    		if(verbose) printf("[%d] TrimmAdaptors\n", dev);
+    	    		if(verbose) printf("[%d] TrimmAdaptors\n", device[dev]);
     	    		TrimmAdaptors<<<4096, 256, 0, compute_stream[dev]>>>(dSequenceArray[dev], dIntArray[dev][dev_side], ReadsToProcess[dev], MAX_READ_LENGTH);
     	    		CUDA_CHECK_RETURN(cudaGetLastError());
     	    	}
@@ -710,7 +710,7 @@ int PreprocessReadsOnGPU(void)
     	    CUDA_CHECK_RETURN(cudaStreamWaitEvent(download_stream[dev], TrimmA_DONE[dev], 0));
     	    CUDA_CHECK_RETURN(cudaMemcpyAsync(hReadLen[dev][dev_side], dIntArray[dev][dev_side], ReadsToProcess[dev] * sizeof(short), cudaMemcpyDeviceToHost, download_stream[dev]));
     	    CUDA_CHECK_RETURN(cudaEventRecord(DTH_COPY_DONE[dev], download_stream[dev]));
-    	    if(verbose) printf("[%d] Memcpy DtoH %d reads\n", dev, ReadsToProcess[dev]);
+    	    if(verbose) printf("[%d] Memcpy DtoH %d reads\n", device[dev], ReadsToProcess[dev]);
 
     	    ReadsSentToGPU[dev] = ReadsToProcess[dev];
     	    ReadsToProcess[dev] = 0;
@@ -750,7 +750,7 @@ int PreprocessReadsOnGPU(void)
         	    CUDA_CHECK_RETURN(cudaStreamWaitEvent(compute_stream[dev], QUAL_COPY_DONE[dev], 0));
         	    if(QualityTrimming)
         	    {
-        	    	if(verbose) printf("[%d] TrimmQuals\n", dev);
+        	    	if(verbose) printf("[%d] TrimmQuals\n", device[dev]);
         	    	TrimmQuals<<<4096, 256, 0, compute_stream[dev]>>>(dQualArray[dev], dIntArray[dev][dev_next_side], ReadsToProcess[dev], MAX_READ_LENGTH);
         	    	CUDA_CHECK_RETURN(cudaGetLastError());
         	    }
@@ -774,7 +774,7 @@ int PreprocessReadsOnGPU(void)
         	    CUDA_CHECK_RETURN(cudaStreamWaitEvent(compute_stream[dev], SEQ_COPY_DONE[dev], 0));
         	    if(gRNATrimming)
         	    {
-        	    	if(verbose) printf("[%d] Find_gRNA\n", dev);
+        	    	if(verbose) printf("[%d] Find_gRNA\n", device[dev]);
         	    	Find_gRNA<<<4096, 256, 0, compute_stream[dev]>>>(dSequenceArray[dev], dIntArray[dev][dev_next_side], ReadsToProcess[dev], MAX_READ_LENGTH);
         	    	CUDA_CHECK_RETURN(cudaGetLastError());
         	    }
@@ -782,7 +782,7 @@ int PreprocessReadsOnGPU(void)
         	    {
         	    	if(AdaptorTrimming)
         	    	{
-        	    		if(verbose) printf("[%d] TrimmAdaptors\n", dev);
+        	    		if(verbose) printf("[%d] TrimmAdaptors\n", device[dev]);
         	    		TrimmAdaptors<<<4096, 256, 0, compute_stream[dev]>>>(dSequenceArray[dev], dIntArray[dev][dev_next_side], ReadsToProcess[dev], MAX_READ_LENGTH);
         	    		CUDA_CHECK_RETURN(cudaGetLastError());
         	    	}
@@ -799,7 +799,7 @@ int PreprocessReadsOnGPU(void)
         	{
         	    CUDA_CHECK_RETURN(cudaSetDevice(device[dev]));
         		CUDA_CHECK_RETURN(cudaEventSynchronize(DTH_COPY_DONE[dev]));
-        		if(verbose) printf("[%d] Writing hReadLen[%d][%d]\n", dev, dev, dev_side);
+        		if(verbose) printf("[%d] Writing hReadLen[%d][%d]\n", device[dev], dev, dev_side);
         	    WriteBlockOfReads(ReadsSentToGPU[dev], hReadLen[dev][dev_side], MIN_OUT_READ_LEN);    // write output block
         	    ReadsProcessed += ReadsSentToGPU[dev];             // count how many reads were considered for writing - actual output has minimal length requirement
         	}
@@ -809,7 +809,7 @@ int PreprocessReadsOnGPU(void)
         	    CUDA_CHECK_RETURN(cudaStreamWaitEvent(download_stream[dev], TrimmA_DONE[dev], 0));
         	    CUDA_CHECK_RETURN(cudaMemcpyAsync(hReadLen[dev][dev_next_side], dIntArray[dev][dev_next_side], ReadsToProcess[dev] * sizeof(short), cudaMemcpyDeviceToHost, download_stream[dev]));
         	    CUDA_CHECK_RETURN(cudaEventRecord(DTH_COPY_DONE[dev], download_stream[dev]));
-        	    if(verbose) printf("[%d] Memcpy DtoH %d reads\n", dev, ReadsToProcess[dev]);
+        	    if(verbose) printf("[%d] Memcpy DtoH %d reads\n", device[dev], ReadsToProcess[dev]);
         	}
     	    ReadsSentToGPU[dev] = ReadsToProcess[dev];
     	    ReadsToProcess[dev] = 0;
