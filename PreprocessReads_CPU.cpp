@@ -361,10 +361,9 @@ int ReadBlockOfReads(int max_num_to_read, Read_t *Reads)
         memcpy(Reads[n].ReadQualstr, Read.qualstr, length);
         Reads[n].ReadLen = length;
         length=strlen(Read.name)-1;
-        if(length > MAX_READ_NAME_LENGTH-2) length = MAX_READ_NAME_LENGTH-2;
+        if(length > MAX_READ_NAME_LENGTH-1) length = MAX_READ_NAME_LENGTH-1;
         memcpy(Reads[n].ReadName, Read.name, length);
-        Reads[n].ReadName[length]=10;
-        Reads[n].ReadName[length+1]=0;
+        Reads[n].ReadName[length]=0;
 
         n++;
         if(n >= max_num_to_read) break;
@@ -388,8 +387,8 @@ int WriteBlockOfReads(int num_of_reads_to_write, const Read_t *Reads, int min_ou
     {
         length=strnlen(Reads[n].ReadName, MAX_READ_NAME_LENGTH); // regenerate writeable read name
         memcpy(Read.name, Reads[n].ReadName, length);
-		Read.name[MAX_READ_NAME_LENGTH-2]=10;
-		Read.name[MAX_READ_NAME_LENGTH-1]=0;
+		Read.name[length]=10;
+		Read.name[length+1]=0;
 
         length = Reads[n].ReadLen;
 
@@ -436,7 +435,6 @@ int WriteBlockOfReads(int num_of_reads_to_write, const Read_t *Reads, int min_ou
             {
                 memcpy(Read.sequence, Reads[n].ReadSequence, length);
                 memcpy(Read.qualstr, Reads[n].ReadQualstr, length);
-                memcpy(Read.name, Reads[n].ReadName, length);
 
                 Read.sequence[length]=10;        // write only reads that are longer than minimum to output file
                 Read.sequence[length+1]=0;

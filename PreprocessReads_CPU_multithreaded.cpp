@@ -374,7 +374,7 @@ int ReadBlockOfReads(int max_num_to_read, Read_t *Reads)
         memcpy(Reads[n].ReadQualstr, Read.qualstr, length);
         Reads[n].ReadLen = length;
         length=strlen(Read.name)-1;
-        if(length > MAX_READ_NAME_LENGTH) length = MAX_READ_NAME_LENGTH;
+        if(length > MAX_READ_NAME_LENGTH-1) length = MAX_READ_NAME_LENGTH-1;
         memcpy(Reads[n].ReadName, Read.name, length);
         Reads[n].ReadName[length]=0;
 
