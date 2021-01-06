@@ -823,6 +823,9 @@ int PreprocessReadsOnGPU(void)
 
 void usage_help(void)
 {
+	printf("\nPreprocessReads multi-GPU version\n");
+	printf("\tsupports up to 4 NVIDIA GPUs with compute capability greater than 3.5 and at least 6 GB memory.\n");
+	printf("\tcompiled for minimum CUDA API 6.5 (build 20210107).\n");
 	printf("\nProgram Options:\n\n");
 	printf("\t-i, -I ....... specify the path for the input file [required]\n");
 	printf("\t-o, -O ....... specify the path for the output file [required]\n");
