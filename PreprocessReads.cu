@@ -377,7 +377,7 @@ int FindGPUs(void)
             }
         	device[numGPUs] = dev;
         	numGPUs++;
-        	if (numGPUs > MAX_GPU_NUM) break;
+        	if (numGPUs >= MAX_GPU_NUM) break;
         }
     }
     return(numGPUs);
